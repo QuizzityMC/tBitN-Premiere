@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Playlist</title>
+    <style>
+        video {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <video id="videoPlayer" autoplay muted>
+        <source src="file:///media/removable/ADS%20FILMS%20N/tBitN/ADS%20News%20Intro%20(BBC%20Clone).mp4" type="video/mp4">
+        <source src="file:///media/removable/rootfs/home/quizzitymc/tBitN%20Release%201%20-%201080p.mp4" type="video/mp4">
+        <!-- Add the third video source here when defined -->
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        const videoPlayer = document.getElementById('videoPlayer');
+        const sources = videoPlayer.getElementsByTagName('source');
+        let currentVideo = 0;
+
+        videoPlayer.addEventListener('ended', function() {
+            currentVideo++;
+            if (currentVideo < sources.length) {
+                videoPlayer.src = sources[currentVideo].src;
+                videoPlayer.play();
+            }
+        });
+    </script>
+</body>
+</html>
