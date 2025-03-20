@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullscreen Autoplay Videos</title>
+    <title>Fullscreen Video</title>
     <style>
         body, html {
             margin: 0;
@@ -11,10 +11,17 @@
             height: 100%;
             overflow: hidden;
         }
-        video {
+        #videoContainer {
             position: fixed;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+        video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -22,36 +29,27 @@
     </style>
 </head>
 <body>
-    <video id="videoPlayer" autoplay muted>
-        <source src="file:///media/removable/ADS%20FILMS%20N/tBitN/ADS%20News%20Intro%20(BBC%20Clone).mp4" type="video/mp4">
-        <source src="file:///media/removable/rootfs/home/quizzitymc/tBitN%20Release%201%20-%201080p.mp4" type="video/mp4">
-        <!-- Add the third video source here when defined -->
-    </video>
+    <div id="videoContainer">
+        <video id="myVideo" autoplay>
+            <source src="file:///media/removable/ADS%20FILMS%20N/tBitN/ADS%20News%20Intro%20(BBC%20Clone).mp4" type="video/mp4">
+        </video>
+    </div>
 
     <script>
-        const videoPlayer = document.getElementById('videoPlayer');
-        const sources = videoPlayer.getElementsByTagName('source');
-        let currentVideo = 0;
+        const video = document.getElementById('myVideo');
+        const container = document.getElementById('videoContainer');
 
-        videoPlayer.addEventListener('ended', function() {
-            currentVideo++;
-            if (currentVideo < sources.length) {
-                videoPlayer.src = sources[currentVideo].src;
-                videoPlayer.play();
-            }
+        video.addEventListener('loadedmetadata', () => {
+            video.play();
+            setTimeout(() => {
+                container.style.opacity = '1';
+            }, 100);
         });
 
-        // Request fullscreen on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            if (videoPlayer.requestFullscreen) {
-                videoPlayer.requestFullscreen();
-            } else if (videoPlayer.mozRequestFullScreen) { // Firefox
-                videoPlayer.mozRequestFullScreen();
-            } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari and Opera
-                videoPlayer.webkitRequestFullscreen();
-            } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
-                videoPlayer.msRequestFullscreen();
-            }
+        video.addEventListener('canplay', () => {
+            video.requestFullscreen().catch(err => {
+                console.error('Error attempting to enable fullscreen:', err);
+            });
         });
     </script>
 </body>
