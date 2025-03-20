@@ -11,20 +11,34 @@
             display: block;
             margin: 0 auto;
         }
+        #playButton {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
-    <video id="videoPlayer" autoplay muted>
+    <video id="videoPlayer" muted>
         <source src="file:///media/removable/ADS%20FILMS%20N/tBitN/ADS%20News%20Intro%20(BBC%20Clone).mp4" type="video/mp4">
         <source src="file:///media/removable/rootfs/home/quizzitymc/tBitN%20Release%201%20-%201080p.mp4" type="video/mp4">
         <!-- Add the third video source here when defined -->
         Your browser does not support the video tag.
     </video>
 
+    <button id="playButton">Start Videos</button>
+
     <script>
         const videoPlayer = document.getElementById('videoPlayer');
+        const playButton = document.getElementById('playButton');
         const sources = videoPlayer.getElementsByTagName('source');
         let currentVideo = 0;
+
+        playButton.addEventListener('click', function() {
+            videoPlayer.play();
+            playButton.style.display = 'none';
+        });
 
         videoPlayer.addEventListener('ended', function() {
             currentVideo++;
