@@ -19,7 +19,7 @@
             height: 100%;
             background-color: black;
             opacity: 0;
-            transition: opacity 2s;
+            transition: opacity 4s; /* Increased transition time to 4 seconds */
         }
         video {
             width: 100%;
@@ -43,7 +43,7 @@
             video.play();
             setTimeout(() => {
                 container.style.opacity = '1';
-            }, 100);
+            }, 100); // Start fade-in after a short delay
         });
 
         video.addEventListener('canplay', () => {
