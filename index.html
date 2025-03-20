@@ -26,18 +26,25 @@
             height: 100%;
             object-fit: cover;
         }
-        /* Hide video controls */
-        video::-webkit-media-controls {
-            display: none !important;
-        }
-        video::-webkit-media-controls-enclosure {
+        /* Aggressively hide all video controls */
+        video::-webkit-media-controls,
+        video::-webkit-media-controls-overlay-play-button,
+        video::-webkit-media-controls-play-button,
+        video::-webkit-media-controls-timeline,
+        video::-webkit-media-controls-current-time-display,
+        video::-webkit-media-controls-time-remaining-display,
+        video::-webkit-media-controls-time-remaining-display,
+        video::-webkit-media-controls-mute-button,
+        video::-webkit-media-controls-toggle-closed-captions-button,
+        video::-webkit-media-controls-volume-slider,
+        video::-webkit-media-controls-fullscreen-button {
             display: none !important;
         }
     </style>
 </head>
 <body>
     <div id="videoContainer">
-        <video id="myVideo" preload="none" controls="false">
+        <video id="myVideo" preload="none" controlslist="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
             <source src="file:///media/removable/ADS%20FILMS%20N/tBitN/ADS%20News%20Intro%20(BBC%20Clone).mp4" type="video/mp4">
         </video>
     </div>
@@ -69,6 +76,9 @@
 
         // Ensure controls are hidden
         video.controls = false;
+        
+        // Prevent right-click menu on video
+        video.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); }
     </script>
 </body>
 </html>
