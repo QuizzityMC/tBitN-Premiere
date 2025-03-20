@@ -41,7 +41,7 @@
 </head>
 <body>
     <div id="videoContainer">
-        <video id="myVideo" preload="none" controlslist="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
+        <video id="myVideo" preload="auto" controlslist="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
             <source src="file:///media/removable/rootfs/home/quizzitymc/tBitN%20Release%201%20-%201080p.mp4" type="video/mp4">
         </video>
     </div>
@@ -51,29 +51,7 @@
         const container = document.getElementById('videoContainer');
         let hasStarted = false;
 
-        document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space' && !hasStarted) {
-                event.preventDefault();
-                startVideo();
-                hasStarted = true;
-            }
-        });
-
-        function startVideo() {
-            video.load();
-            video.play().then(() => {
-                document.body.style.background = 'transparent'; // Remove black background
-                video.requestFullscreen().catch(err => {
-                    console.error('Error attempting to enable fullscreen:', err);
-                });
-            }).catch(err => {
-                console.error('Error playing video:', err);
-            });
-        }
-
-        video.controls = false;
-        
-        video.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); }
-    </script>
-</body>
-</html>
+        // Preload audio
+        video.load();
+        video.muted = true;
+        v
