@@ -26,11 +26,18 @@
             height: 100%;
             object-fit: cover;
         }
+        /* Hide video controls */
+        video::-webkit-media-controls {
+            display: none !important;
+        }
+        video::-webkit-media-controls-enclosure {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
     <div id="videoContainer">
-        <video id="myVideo" preload="none">
+        <video id="myVideo" preload="none" controls="false">
             <source src="file:///media/removable/ADS%20FILMS%20N/tBitN/ADS%20News%20Intro%20(BBC%20Clone).mp4" type="video/mp4">
         </video>
     </div>
@@ -59,6 +66,9 @@
                 console.error('Error playing video:', err);
             });
         }
+
+        // Ensure controls are hidden
+        video.controls = false;
     </script>
 </body>
 </html>
