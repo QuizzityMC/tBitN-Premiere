@@ -10,7 +10,7 @@
             padding: 0;
             height: 100%;
             overflow: hidden;
-            background-color: black; /* Black background at the start */
+            background-color: black;
         }
         #videoContainer {
             position: fixed;
@@ -18,9 +18,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: black;
-            opacity: 0; /* Fully hidden at first */
-            transition: opacity 4s; /* Fade-in duration */
+            opacity: 0;
+            transition: opacity 4s;
         }
         video {
             width: 100%;
@@ -31,7 +30,7 @@
 </head>
 <body>
     <div id="videoContainer">
-        <video id="myVideo" preload="metadata">
+        <video id="myVideo" preload="none">
             <source src="file:///media/removable/ADS%20FILMS%20N/tBitN/ADS%20News%20Intro%20(BBC%20Clone).mp4" type="video/mp4">
         </video>
     </div>
@@ -39,20 +38,25 @@
     <script>
         const video = document.getElementById('myVideo');
         const container = document.getElementById('videoContainer');
+        let hasStarted = false;
 
-        // Listen for the spacebar key press
         document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space') { // Check if the spacebar was pressed
-                event.preventDefault(); // Prevent the default scroll behavior
+            if (event.code === 'Space' && !hasStarted) {
+                event.preventDefault();
                 startVideo();
+                hasStarted = true;
             }
         });
 
         function startVideo() {
-            container.style.opacity = '1'; // Start fading in the video
-            video.play(); // Start playing the video
-            video.requestFullscreen().catch(err => {
-                console.error('Error attempting to enable fullscreen:', err);
+            video.load();
+            video.play().then(() => {
+                container.style.opacity = '1';
+                video.requestFullscreen().catch(err => {
+                    console.error('Error attempting to enable fullscreen:', err);
+                });
+            }).catch(err => {
+                console.error('Error playing video:', err);
             });
         }
     </script>
