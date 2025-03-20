@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Video</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+        #videoContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        video::-webkit-media-controls,
+        video::-webkit-media-controls-overlay-play-button,
+        video::-webkit-media-controls-play-button,
+        video::-webkit-media-controls-timeline,
+        video::-webkit-media-controls-current-time-display,
+        video::-webkit-media-controls-time-remaining-display,
+        video::-webkit-media-controls-time-remaining-display,
+        video::-webkit-media-controls-mute-button,
+        video::-webkit-media-controls-toggle-closed-captions-button,
+        video::-webkit-media-controls-volume-slider,
+        video::-webkit-media-controls-fullscreen-button {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="videoContainer">
+        <video id="myVideo" preload="none" controlslist="nodownload nofullscreen noremoteplayback" disablePictureInPicture>
+            <source src="file:///media/removable/rootfs/home/quizzitymc/tBitN%20Release%201%20-%201080p.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const container = document.getElementById('videoContainer');
+        let hasStarted = false;
+
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Space' && !hasStarted) {
+                event.preventDefault();
+                startVideo();
+                hasStarted = true;
+            }
+        });
+
+        function startVideo() {
+            video.load();
+            video.play().then(() => {
+                document.body.style.background = 'transparent'; // Remove black background
+                video.requestFullscreen().catch(err => {
+                    console.error('Error attempting to enable fullscreen:', err);
+                });
+            }).catch(err => {
+                console.error('Error playing video:', err);
+            });
+        }
+
+        video.controls = false;
+        
+        video.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); }
+    </script>
+</body>
+</html>
